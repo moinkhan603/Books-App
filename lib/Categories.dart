@@ -36,7 +36,9 @@ Positioned(
 
     height: x,
    // child: Image.asset("assets/images/bkg.jpg")
-child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
+
+
+  child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
 ),
         ClipPath(
           clipper: CustomClipPath(),

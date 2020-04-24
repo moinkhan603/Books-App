@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Details extends StatefulWidget {
   @override
   _DetailsState createState() => _DetailsState();
@@ -9,7 +11,7 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-backgroundColor: Color(0xff93C5D8).withOpacity(0.2),
+backgroundColor: Color(0xff93C5D8).withOpacity(0.1),
       body: SingleChildScrollView(
         child: Stack(
 
@@ -44,7 +46,28 @@ height: 230,
                 },
               ),
             ),
-    Column(
+            Positioned(
+              top: MediaQuery.of(context).size.height/2.32,
+              left: MediaQuery.of(context).size.width/1.4,
+              child: Container(
+                //  margin: EdgeInsets.only(left: 100),
+                child: new CircularPercentIndicator(
+
+                  radius: 80.0,
+                  lineWidth: 4.0,
+                  percent: 0.2,
+
+                  center: new Text("0%",style: TextStyle(color: Colors.white),),
+                  progressColor: Colors.blueAccent,
+                ),
+              ),
+            ),
+
+
+
+
+
+            Column(
       children: <Widget>[
         Container(
 margin: EdgeInsets.only(top: 156,left: 10),
@@ -72,25 +95,54 @@ margin: EdgeInsets.only(top: 156,left: 10),
                   children: <Widget>[
 
                   Text("JavaScript",style: TextStyle(color: Colors.white,fontSize: 30),),
-                  Text("Size",style: TextStyle(color: Color(0xffF5BD1F),fontSize: 20),),
-                  Text("Pages",style: TextStyle(color: Colors.redAccent,fontSize: 20),),
+                  Text("Size 20 MB",style: TextStyle(color: Color(0xffF5BD1F),fontSize: 20),),
+                  Text("Pages 120",style: TextStyle(color: Colors.blue,fontSize: 20),),
+
+
+
+                    
+
 
                 ],),
-              )
+
+
+              ),
+
+
+
+
+
             ],
           ),
 
         ),
+
+
+
+
+
+
         Container(
 
-          margin: EdgeInsets.only(top: 15),
+          margin: EdgeInsets.only(top: 15,right: 55),
           child:Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
             children: <Widget>[
-            IconButton(icon: Icon(Icons.print,size: 35,color: Colors.white,),),
-            IconButton(icon: Icon(Icons.file_download,size: 35,color: Colors.white),),
-            IconButton(icon: Icon(Icons.share,size: 35,color: Colors.white),),
+
+//              FloatingActionButton(
+//
+//                child: Text("Open",
+//              style: TextStyle(color: Colors.white),
+//              ),
+//backgroundColor: Colors.blueAccent,
+//
+//
+//              ),
+//SizedBox(width: 15,),
+            IconButton(icon: FaIcon(FontAwesomeIcons.print,color: Colors.white,),),
+            IconButton(icon: FaIcon(FontAwesomeIcons.download,color: Colors.white),),
+            IconButton(icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white),),
 
 
           ],),),
