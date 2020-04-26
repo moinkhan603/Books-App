@@ -1,12 +1,113 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'ViewPdf.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:downloads_path_provider/downloads_path_provider.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 class Details extends StatefulWidget {
   @override
   _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
+
+var dir;
+
+  final imgUrl = "https://firebasestorage.googleapis.com/v0/b/basic-84916.appspot.com/o/Labmongodb.pdf?alt=media&token=9525c5f6-f835-4343-a3eb-7319e692f643";
+  bool downloading = false;
+  var progressString = "";
+var percent=0.0;
+
+
+
+Directory _downloadsDirectory;
+
+
+
+
+Future<void> initDownloadsDirectoryState() async {
+  Directory downloadsDirectory;
+  // Platform messages may fail, so we use a try/catch PlatformException.
+  try {
+    downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
+  } on PlatformException {
+    print('Could not get the downloads directory');
+  }
+
+  // If the widget was removed from the tree while the asynchronous platform
+  // message was in flight, we want to discard the reply rather than calling
+  // setState to update our non-existent appearance.
+  if (!mounted) return;
+
+  setState(() {
+    _downloadsDirectory = downloadsDirectory;
+  });
+}
+
+
+  Future<void> downloadFile() async {
+    Dio dio = Dio();
+
+print(_downloadsDirectory);
+    try {
+      dir = await getApplicationDocumentsDirectory();
+//      new Directory(dir.path+'/'+'dir').create(recursive: true)
+//// The created directory is returned as a Future.
+//          .then((Directory directory) {
+//        print('Path of New Dir: '+directory.path);
+//      });
+
+print(dir.path);
+      await dio.download(imgUrl, "${_downloadsDirectory.path}/myfile1.pdf",
+          onReceiveProgress: (rec, total) {
+            print("Rec: $rec , Total: $total");
+
+            setState(() {
+              downloading = true;
+              progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
+
+percent=rec/total;
+            });
+          });
+    } catch (e) {
+      print(e);
+    }
+
+    setState(() {
+      downloading = false;
+      progressString = "Finished";
+    });
+    print("Download completed");
+ //   OpenFile.open('$dir/myfile1.pdf');
+
+//    List<FileSystemEntity> _files;
+//    _files = dir.listSync(recursive: true, followLinks: false);
+//    print(_files);
+  }
+
+//  Future<void> downloadFile2() async {
+//
+//    final taskId = await FlutterDownloader.enqueue(
+//      url: 'https://firebasestorage.googleapis.com/v0/b/basic-84916.appspot.com/o/Labmongodb.pdf?alt=media&token=9525c5f6-f835-4343-a3eb-7319e692f643',
+//      savedDir: getApplicationDocumentsDirectory().toString(),
+//      showNotification: true, // show download progress in status bar (for Android)
+//      clickToOpenDownloadedFile: true, // click on notification to open downloaded file (for Android)
+//    );
+//
+//  }
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initDownloadsDirectoryState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
@@ -55,9 +156,9 @@ height: 230,
 
                   radius: 80.0,
                   lineWidth: 4.0,
-                  percent: 0.2,
+                  percent: percent,
 
-                  center: new Text("0%",style: TextStyle(color: Colors.white),),
+                  center: new Text(progressString,style: TextStyle(color: Colors.white),),
                   progressColor: Colors.blueAccent,
                 ),
               ),
@@ -140,8 +241,29 @@ margin: EdgeInsets.only(top: 156,left: 10),
 //
 //              ),
 //SizedBox(width: 15,),
-            IconButton(icon: FaIcon(FontAwesomeIcons.print,color: Colors.white,),),
-            IconButton(icon: FaIcon(FontAwesomeIcons.download,color: Colors.white),),
+            IconButton(
+
+              icon: FaIcon(FontAwesomeIcons.print,color: Colors.white,),
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PdfView()),
+              );
+
+            },),
+            IconButton(
+              onPressed:()async{
+                final PermissionHandler _permissionHandler = PermissionHandler();
+                var result = await _permissionHandler.requestPermissions([PermissionGroup.storage]);
+
+    if (result[PermissionGroup.storage] == PermissionStatus.granted) {
+      downloadFile();
+    }
+                },
+
+
+
+              icon: FaIcon(FontAwesomeIcons.download,color: Colors.white),),
             IconButton(icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white),),
 
 
