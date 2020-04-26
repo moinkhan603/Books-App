@@ -14,6 +14,7 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 var dir;
 
@@ -112,6 +113,45 @@ percent=rec/total;
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
+appBar: AppBar(title: Text("JavaScript Books"),
+  leading: new IconButton(
+      icon: new FaIcon(FontAwesomeIcons.thList,size: 25,),
+      onPressed: () => _scaffoldKey.currentState.openDrawer())
+    ,centerTitle: true,backgroundColor: Color(0x1893C5D8),),
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+
+                child: Text('Drawer Header'),
+                decoration: BoxDecoration(
+                  color: Color(0xff006B7F).withOpacity(0.8),
+                ),
+              ),
+              ListTile(
+                title: Text('Item 1'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                title: Text('Item 2'),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        ),
+
 backgroundColor: Color(0xff93C5D8).withOpacity(0.1),
       body: SingleChildScrollView(
         child: Stack(
@@ -136,17 +176,17 @@ height: 230,
 //          fit: BoxFit.cover,
 //        ),
     ),
-            Positioned(
-              top: 12,
-              left: 5,
-              child: IconButton(
-                icon: Icon(Icons.list,color: Colors.white,size: 44,),
-                tooltip: 'Increase volume by 10',
-                onPressed: () {
-
-                },
-              ),
-            ),
+//            Positioned(
+//              top: 12,
+//              left: 5,
+//              child: IconButton(
+//                icon: Icon(Icons.list,color: Colors.white,size: 44,),
+//                tooltip: 'Increase volume by 10',
+//                onPressed: () {
+//                  //Scaffold.of(context).openDrawer();
+//                },
+//              ),
+//            ),
             Positioned(
               top: MediaQuery.of(context).size.height/2.32,
               left: MediaQuery.of(context).size.width/1.4,
@@ -178,13 +218,14 @@ margin: EdgeInsets.only(top: 156,left: 10),
             children: <Widget>[
             Material(
 
-            borderRadius: BorderRadius.circular(8.0),
+           // borderRadius: BorderRadius.circular(20.0),
             elevation: 20.0,
             child: Image.asset(
+
             "assets/images/jss.png",
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
             width: 152,
-            height: 200,
+            height: 220,
             ),
             ),
               SizedBox(width: 10,),
@@ -282,7 +323,7 @@ Stack(children: <Widget>[
   Container(
 
 
-    height: MediaQuery.of(context).size.height/2.55,
+    height: MediaQuery.of(context).size.height/2.8,
     width: MediaQuery.of(context).size.width,
     decoration: BoxDecoration(
       image: DecorationImage(

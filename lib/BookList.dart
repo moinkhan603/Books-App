@@ -1,18 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:learnprog/Detail.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class BookList extends StatefulWidget {
   @override
   _BookListState createState() => _BookListState();
 }
 
 class _BookListState extends State<BookList> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(title: Text("JavaScript Books"),
 
-backgroundColor: Colors.white,
+        leading: new IconButton(
+            icon: new FaIcon(FontAwesomeIcons.thList,size: 28,),
+            onPressed: () => _scaffoldKey.currentState.openDrawer())
+          ,centerTitle: true,backgroundColor: Color(0x1893C5D8),
+      elevation: 10,),
 
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
 
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: Color(0xff006B7F).withOpacity(0.8),
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      )
+      ,
+extendBodyBehindAppBar: true,
 body:  Stack(children: <Widget>[
   Positioned(
 
@@ -93,17 +134,17 @@ physics: BouncingScrollPhysics(),
       ),
     ),
   ),
-  Positioned(
-    top: 12,
-    left: 5,
-    child: IconButton(
-      icon: Icon(Icons.list,color: Colors.white,size: 44,),
-      tooltip: 'Increase volume by 10',
-      onPressed: () {
-
-      },
-    ),
-  ),  //Stack(children: <Widget>[
+//  Positioned(
+//    top: 12,
+//    left: 5,
+//    child: IconButton(
+//      icon: Icon(Icons.list,color: Colors.white,size: 44,),
+//      tooltip: 'Increase volume by 10',
+//      onPressed: () {
+//
+//      },
+//    ),
+//  ),  //Stack(children: <Widget>[
 
   //
 
