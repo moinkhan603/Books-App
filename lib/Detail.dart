@@ -4,6 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'ViewPdf.dart';
 import 'package:dio/dio.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/services.dart';
@@ -188,13 +189,13 @@ height: 230,
 //              ),
 //            ),
             Positioned(
-              top: MediaQuery.of(context).size.height/2.32,
+              top: MediaQuery.of(context).size.height/2.2,
               left: MediaQuery.of(context).size.width/1.4,
               child: Container(
                 //  margin: EdgeInsets.only(left: 100),
                 child: new CircularPercentIndicator(
 
-                  radius: 80.0,
+                  radius: 90.0,
                   lineWidth: 4.0,
                   percent: percent,
 
@@ -233,12 +234,27 @@ margin: EdgeInsets.only(top: 156,left: 10),
                 padding: EdgeInsets.only(top: 70),
                 child: Column(
 
-
+mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
 
-                  Text("JavaScript",style: TextStyle(color: Colors.white,fontSize: 30),),
-                  Text("Size 20 MB",style: TextStyle(color: Color(0xffF5BD1F),fontSize: 20),),
-                  Text("Pages 120",style: TextStyle(color: Colors.blue,fontSize: 20),),
+
+
+                  SizedBox(
+                    width: 200.0,
+                    
+                    child: AutoSizeText(
+                    'This string will be automatically resized to fit in two lines.',
+                    style: TextStyle(fontSize: 20.0,color: Colors.white),
+                    maxLines: 4,
+
+
+              ),
+                  ),
+
+                  SizedBox(height: 15,),
+                  Text("Size 20 MB",style: TextStyle(color: Color(0xffF5BD1F),fontSize: 15),),
+                  Text("Pages 120",style: TextStyle(color: Colors.deepOrangeAccent,fontSize: 15),),
 
 
 

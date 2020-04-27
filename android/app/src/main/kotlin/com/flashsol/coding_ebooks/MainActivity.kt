@@ -1,4 +1,4 @@
-package com.flashsol.learnprog
+package com.flashsol.coding_ebooks
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

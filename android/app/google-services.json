@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "887705840554",
+    "firebase_url": "https://books-app-77e78.firebaseio.com",
+    "project_id": "books-app-77e78",
+    "storage_bucket": "books-app-77e78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887705840554:android:eedec15e8e831683c7d9d3",
+        "android_client_info": {
+          "package_name": "com.flashsol.coding_ebooks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887705840554-9ejautrp3b9plr5qiodg0f3q9urqlmbq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIwOa8Ei9GB-SfAo4FEIKWLzC8TlLZkXk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887705840554-9ejautrp3b9plr5qiodg0f3q9urqlmbq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

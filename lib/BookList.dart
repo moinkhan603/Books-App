@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learnprog/Detail.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class BookList extends StatefulWidget {
   @override
@@ -197,21 +198,18 @@ physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Title",style: TextStyle(
-                  fontSize: 22.0,
+              Text("javascript dfdsss sssdsds notres for profs",style: TextStyle(
+                  fontSize: 20.0,
                   color: Colors.white,
-                  fontWeight: FontWeight.w700
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold
               ),),
               SizedBox(height: 10.0,),
-              Text("Category", style: TextStyle(
-                  color: Colors.white,
+              Text("Pages: 400 +", style: TextStyle(
+                  color: Colors.lightGreenAccent,
                   fontSize: 18.0
               )),
-              SizedBox(height: 10.0,),
-              Text("Ratings", style: TextStyle(
-                color: Colors.white,
-                fontSize: 30.0,
-              )),
+
 RaisedButton(
   elevation: 10,
 child: Text("Details"),
