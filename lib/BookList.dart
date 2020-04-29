@@ -1,14 +1,55 @@
+import 'dart:async';
+import 'CommonMethods.dart';
 import 'package:flutter/material.dart';
 import 'package:learnprog/Detail.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import'package:cloud_firestore/cloud_firestore.dart';
 class BookList extends StatefulWidget {
+
   @override
   _BookListState createState() => _BookListState();
 }
 
 class _BookListState extends State<BookList> {
+
+
+  StreamSubscription<QuerySnapshot>subscription;
+  List<DocumentSnapshot>books;
+  final CollectionReference collectionReference=
+  Firestore.instance.collection(CM.cover);
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    subscription=collectionReference.snapshots()
+        .listen((datasnapshot){
+
+
+      setState(() {
+        books=datasnapshot.documents;
+      });
+
+
+    });
+
+
+  }
+
+
+
+  @override
+  void dispose() {
+
+  subscription?.cancel();
+  // TODO: implement dispose
+    super.dispose();
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,21 +139,34 @@ child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/comput
 //
 //      ),
 
+books!=null?
+    Container(
+      margin: EdgeInsets.only(top: 150),
+      height: MediaQuery.of(context).size.height,
+      child: ListView.builder(
 
-    SingleChildScrollView(
 physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.only(top:200),
 
-      child: Column(
+itemCount: books.length,
 
-        children: <Widget>[
-          mycard(),
-          mycard(),
-          mycard(),
-          mycard(),
-        ],
+      itemBuilder: (BuildContext context, int index) {
+String imgpath=books[index].data['img'];
+String title=books[index].data['name'];
+String pages=books[index].data['pages'];
+String size=books[index].data['size'];
+String pdf=books[index].data['pdf'];
+String intro=books[index].data['intro'];
+print(pages);
+print(books.length);
+        return mycard(imgpath,title,pages,size,pdf,intro);
+
+
+
+      }
+
+
       ),
-    )
+    ):Center(child: CircularProgressIndicator())
 ,
   Card(
     margin: EdgeInsets.only(left: 30, right:30, top:110),
@@ -176,7 +230,9 @@ physics: BouncingScrollPhysics(),
     );
   }
 
-  Container mycard() {
+  Container mycard(imgpath,title,pages,size,pdf,intro) {
+
+
     return Container(
     padding: EdgeInsets.only(left: 20.0, right: 20.0,top: 5,bottom: 5),
     margin: EdgeInsets.only(bottom: 20.0),
@@ -185,7 +241,7 @@ physics: BouncingScrollPhysics(),
       children: <Widget>[
         Expanded(child: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/images/jss.png"), fit: BoxFit.fill),
+              image: DecorationImage(image: NetworkImage(imgpath), fit: BoxFit.fill),
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               boxShadow: [
                 BoxShadow(color: Colors.black87.withOpacity(0.1),offset: Offset(5.0,5.0), blurRadius: 20.0)
@@ -198,15 +254,21 @@ physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("javascript dfdsss sssdsds notres for profs",style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold
-              ),),
-              SizedBox(height: 10.0,),
-              Text("Pages: 400 +", style: TextStyle(
-                  color: Colors.lightGreenAccent,
+//              Text("javascript dfdsss sssdsds notres for profs",style: TextStyle(
+//                  fontSize: 15.0,
+//                  color: Colors.white,
+//                  fontStyle: FontStyle.italic,
+//                  fontWeight: FontWeight.bold
+//              ),),
+
+            AutoSizeText(
+             title
+                  ,maxLines: 3,style: TextStyle(fontSize: 20,color: Colors.white),
+
+            ),
+              SizedBox(height: 6.0,),
+              Text("Pages: "+pages, style: TextStyle(
+                  color: Colors.orange,
                   fontSize: 18.0
               )),
 
@@ -214,9 +276,18 @@ RaisedButton(
   elevation: 10,
 child: Text("Details"),
   onPressed:(){
+    CM.imgpath=imgpath;
+    CM.title=title;
+    CM.pages=pages;
+    CM.size=size;
+    CM.pdf =pdf;
+    CM.intro=intro;
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Details()),
+      MaterialPageRoute(builder: (context) => Details(
+
+      )),
     );
   },
 

@@ -1,6 +1,9 @@
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'values.dart';
+import 'CommonMethods.dart';
 import 'BookList.dart';
 class Categories extends StatefulWidget {
   @override
@@ -8,7 +11,22 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-
+  StreamSubscription<ConnectivityResult>subscription;
+Connectivity connectivity;
+bool isConnected;
+  List<String>names=[
+    "angular",
+    "cplus",
+    "csharp",
+    "javascript",
+    "html",
+    "matlab",
+    "mongodb",
+    "nodejs",
+    "sql",
+    "python",
+    "java"
+  ];
 
   final List<myvalues> values = [
 
@@ -20,26 +38,88 @@ class _CategoriesState extends State<Categories> {
     myvalues("assets/images/matlab.png","Matlab Books"),
     myvalues("assets/images/mongodb.png","MongoDb Books"),
     myvalues("assets/images/node.png","NodeJs Books"),
-    myvalues("assets/images/sql.png","SQL Books")
+    myvalues("assets/images/sql.png","SQL Books"),
+    myvalues("assets/images/python.png","Python Books"),
+    myvalues("assets/images/java.png","Java Books")
 
   ];
 
+//Future<bool> CheckConnectivity()async{
+//  var connectivityResult = await (Connectivity().checkConnectivity());
+//  if (connectivityResult == ConnectivityResult.mobile) {
+//    // I am connected to a mobile network.
+//    return true;
+//  } else if (connectivityResult == ConnectivityResult.wifi) {
+//    // I am connected to a wifi network.
+//
+//      return true;
+//
+//
+//  }
+//  else{
+//    return false;
+//  }
+//
+//}
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+connectivity=new Connectivity();
+subscription=connectivity.onConnectivityChanged.listen((ConnectivityResult Result){
+  if(Result==ConnectivityResult.wifi|| Result==ConnectivityResult.mobile)
+    {
+setState(() {
+  isConnected=true;
+});
+    }
+
+  else{
+
+    setState(() {
+      isConnected=false;
+    });
+
+  }
+
+
+});
+}
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+subscription?.cancel();
+    super.dispose();
+
+  }
 
   @override
   Widget build(BuildContext context) {
+
     var x=MediaQuery.of(context).size.height;
     return Scaffold(
 
 backgroundColor: Colors.white,
-      body: Stack(children: <Widget>[
-Positioned(
+      body:
 
-    height: x,
-   // child: Image.asset("assets/images/bkg.jpg")
+//CheckConnectivity()==true?
 
 
-  child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
-),
+
+isConnected==true?
+      Stack(children: <Widget>[
+        Positioned(
+
+          height: x,
+          // child: Image.asset("assets/images/bkg.jpg")
+
+
+          child: Image.network(
+              "https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
+        ),
         ClipPath(
           clipper: CustomClipPath(),
           child: Container(
@@ -64,7 +144,8 @@ Positioned(
           slivers: <Widget>[
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
                 child: SafeArea(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -95,7 +176,7 @@ Positioned(
 //    textAlign: TextAlign.start,
 //    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
 //    ),
-  //  )
+                      //  )
                     ],),
                 ),
               ),
@@ -123,7 +204,22 @@ Positioned(
       ],
 
 
-      )
+      ):
+
+Container(
+  color: Colors.black87,
+  child: Center(child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Image.asset("assets/images/alert.png",height: 120,),
+      Text("No Internet Available"
+,style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold),
+
+),
+
+    ],
+  )),)
+
     );
   }
 
@@ -131,7 +227,7 @@ Positioned(
    // Category category = categories[index];
 myvalues data=values[index];
 
-    
+String bookName= names[index];
     return Card(
 
       color: Colors.lightBlueAccent.withOpacity(0.1),
@@ -143,7 +239,9 @@ myvalues data=values[index];
 
       child: InkWell(
         onTap: (){
-
+CM.name=data.title;
+CM.transparentImg=data.imgpath;
+CM.cover=bookName;
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => BookList()),

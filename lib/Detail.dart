@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'ViewPdf.dart';
+import 'CommonMethods.dart';
 import 'package:dio/dio.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 class Details extends StatefulWidget {
+
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -19,8 +20,8 @@ class _DetailsState extends State<Details> {
 
 var dir;
 
-  final imgUrl = "https://firebasestorage.googleapis.com/v0/b/basic-84916.appspot.com/o/Labmongodb.pdf?alt=media&token=9525c5f6-f835-4343-a3eb-7319e692f643";
-  bool downloading = false;
+Color progressColor=Colors.blueAccent;
+
   var progressString = "";
 var percent=0.0;
 
@@ -52,24 +53,32 @@ Future<void> initDownloadsDirectoryState() async {
 
 
   Future<void> downloadFile() async {
+  if(progressColor==Colors.red)
+    {
+      setState(() {
+        progressColor=Colors.blueAccent;
+        percent=0.0;
+      });
+    }
+
     Dio dio = Dio();
 
 print(_downloadsDirectory);
     try {
-      dir = await getApplicationDocumentsDirectory();
+    //  dir = await getApplicationDocumentsDirectory();
 //      new Directory(dir.path+'/'+'dir').create(recursive: true)
 //// The created directory is returned as a Future.
 //          .then((Directory directory) {
 //        print('Path of New Dir: '+directory.path);
 //      });
 
-print(dir.path);
-      await dio.download(imgUrl, "${_downloadsDirectory.path}/myfile1.pdf",
+
+String myfile=CM.title+".pdf";
+      await dio.download(CM.pdf, "${_downloadsDirectory.path}/${myfile}",
           onReceiveProgress: (rec, total) {
             print("Rec: $rec , Total: $total");
 
             setState(() {
-              downloading = true;
               progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
 
 percent=rec/total;
@@ -80,8 +89,15 @@ percent=rec/total;
     }
 
     setState(() {
-      downloading = false;
-      progressString = "Finished";
+if(percent==1.0||percent==1)
+  {
+    progressString = "Finished";
+  }
+    else
+      {
+        progressString = "Failed";
+        progressColor=Colors.red;
+      }
     });
     print("Download completed");
  //   OpenFile.open('$dir/myfile1.pdf');
@@ -115,7 +131,7 @@ percent=rec/total;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
-appBar: AppBar(title: Text("JavaScript Books"),
+appBar: AppBar(title: Text(CM.name),
   leading: new IconButton(
       icon: new FaIcon(FontAwesomeIcons.thList,size: 25,),
       onPressed: () => _scaffoldKey.currentState.openDrawer())
@@ -200,7 +216,7 @@ height: 230,
                   percent: percent,
 
                   center: new Text(progressString,style: TextStyle(color: Colors.white),),
-                  progressColor: Colors.blueAccent,
+                  progressColor:progressColor,
                 ),
               ),
             ),
@@ -221,11 +237,11 @@ margin: EdgeInsets.only(top: 156,left: 10),
 
            // borderRadius: BorderRadius.circular(20.0),
             elevation: 20.0,
-            child: Image.asset(
+            child: Image.network(
 
-            "assets/images/jss.png",
+           CM.imgpath,
             fit: BoxFit.fill,
-            width: 152,
+            width: MediaQuery.of(context).size.width/2.3,//152
             height: 220,
             ),
             ),
@@ -241,10 +257,10 @@ mainAxisAlignment: MainAxisAlignment.start,
 
 
                   SizedBox(
-                    width: 200.0,
+                    width: MediaQuery.of(context).size.width/2,
                     
                     child: AutoSizeText(
-                    'This string will be automatically resized to fit in two lines.',
+                    CM.title,
                     style: TextStyle(fontSize: 20.0,color: Colors.white),
                     maxLines: 4,
 
@@ -253,8 +269,8 @@ mainAxisAlignment: MainAxisAlignment.start,
                   ),
 
                   SizedBox(height: 15,),
-                  Text("Size 20 MB",style: TextStyle(color: Color(0xffF5BD1F),fontSize: 15),),
-                  Text("Pages 120",style: TextStyle(color: Colors.deepOrangeAccent,fontSize: 15),),
+                  Text("Size "+CM.size,style: TextStyle(color: Color(0xffF5BD1F),fontSize: 15),),
+                  Text("Pages "+CM.pages,style: TextStyle(color: Colors.deepOrangeAccent,fontSize: 15),),
 
 
 
@@ -345,7 +361,7 @@ Stack(children: <Widget>[
       image: DecorationImage(
         colorFilter: ColorFilter.mode(Color(0xffffffff).withOpacity(0.15),
   BlendMode.dstIn),
-        image: AssetImage("assets/images/js.png"),
+        image: AssetImage(CM.transparentImg),
         fit: BoxFit.fill
       ),
       border: Border.all(width:10.00, color: Color(0xff93C5D8).withOpacity(0.0),),
@@ -367,12 +383,13 @@ Stack(children: <Widget>[
 
 
 
-  Text("JAVA SCRIPT",style: TextStyle(fontSize: 30,color:Colors.yellow,fontWeight: FontWeight.bold),),
-  Text("jsdhusdsh "
-      "sdsdsdsdddddadasndisdisi ius dms isd a mand "
-      "i sdisu mnas dihsmadn iadm sauidhma "
-      "iyudm 9w   oia d s adhiadn id knasid mandij ",
-    style: TextStyle(fontSize: 20,color: Colors.white),),
+  Text("Introduction",style: TextStyle(fontSize: 30,color:Colors.yellow,fontWeight: FontWeight.bold),),
+
+  AutoSizeText(
+   CM.intro,
+      maxLines: 8,
+      style: TextStyle(fontSize: 20,color: Colors.white),
+  ),
 
 
 

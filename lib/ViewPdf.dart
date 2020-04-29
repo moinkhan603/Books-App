@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
-
+import 'CommonMethods.dart';
 class PdfView extends StatefulWidget {
   @override
   _PdfViewState createState() => _PdfViewState();
@@ -39,7 +39,7 @@ class _PdfViewState extends State<PdfView> {
   loadDocument()async{
 
     document = await PDFDocument.fromURL(
-        "https://firebasestorage.googleapis.com/v0/b/basic-84916.appspot.com/o/Labmongodb.pdf?alt=media&token=9525c5f6-f835-4343-a3eb-7319e692f643");
+        CM.pdf);
 
     setState(() {
       _isLoading=false;
