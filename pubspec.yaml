@@ -31,7 +31,9 @@ dependencies:
   path_provider: any
   auto_size_text: ^2.1.0
   cloud_firestore:
+  toast: ^0.1.5
   connectivity: ^0.4.8+2
+  share_extend: ^1.1.5
   permission_handler: ^3.0.0
   downloads_path_provider: ^0.1.0
 dev_dependencies:

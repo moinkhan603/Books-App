@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:share_extend/share_extend.dart';
 import 'ViewPdf.dart';
 import 'CommonMethods.dart';
 import 'package:dio/dio.dart';
@@ -26,7 +27,7 @@ Color progressColor=Colors.blueAccent;
 var percent=0.0;
 
 
-
+String myDownloadFile;
 Directory _downloadsDirectory;
 
 
@@ -117,6 +118,22 @@ if(percent==1.0||percent==1)
 //    );
 //
 //  }
+  void share() async {
+    initDownloadsDirectoryState();
+    String fileName=CM.title+".pdf";
+    File testFile = new File("${_downloadsDirectory.path}/${fileName}");
+    if (await testFile.exists()) {
+//      await testFile.create(recursive: true);
+//      testFile.writeAsStringSync("test for share documents file");
+
+      ShareExtend.share(testFile.path, "file");
+    }
+    else{
+      CM.showToast(context, "First Download before Sharing");
+    }
+
+  }
+
 
 @override
   void initState() {
@@ -136,38 +153,10 @@ appBar: AppBar(title: Text(CM.name),
       icon: new FaIcon(FontAwesomeIcons.thList,size: 25,),
       onPressed: () => _scaffoldKey.currentState.openDrawer())
     ,centerTitle: true,backgroundColor: Color(0x1893C5D8),),
-        drawer: Drawer(
+        drawer: Drawer(),
           // Add a ListView to the drawer. This ensures the user can scroll
           // through the options in the drawer if there isn't enough vertical
           // space to fit everything.
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-
-                child: Text('Drawer Header'),
-                decoration: BoxDecoration(
-                  color: Color(0xff006B7F).withOpacity(0.8),
-                ),
-              ),
-              ListTile(
-                title: Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-              ListTile(
-                title: Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
-              ),
-            ],
-          ),
-        ),
 
 backgroundColor: Color(0xff93C5D8).withOpacity(0.1),
       body: SingleChildScrollView(
@@ -337,7 +326,10 @@ mainAxisAlignment: MainAxisAlignment.start,
 
 
               icon: FaIcon(FontAwesomeIcons.download,color: Colors.white),),
-            IconButton(icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white),),
+            IconButton(
+              onPressed: share,
+
+              icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white),),
 
 
           ],),),
