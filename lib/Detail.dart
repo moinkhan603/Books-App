@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_extend/share_extend.dart';
 import 'ViewPdf.dart';
 import 'CommonMethods.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:dio/dio.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
@@ -148,12 +149,49 @@ if(percent==1.0||percent==1)
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
-appBar: AppBar(title: Text(CM.name),
+appBar: AppBar(title: Text(CM.name,style:  GoogleFonts.hindMadurai(
+
+),),
   leading: new IconButton(
       icon: new FaIcon(FontAwesomeIcons.thList,size: 25,),
       onPressed: () => _scaffoldKey.currentState.openDrawer())
     ,centerTitle: true,backgroundColor: Color(0x1893C5D8),),
-        drawer: Drawer(),
+        drawer: Drawer(
+          // Add a ListView to the drawer. This ensures the user can scroll
+          // through the options in the drawer if there isn't enough vertical
+          // space to fit everything.
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+
+                child: Text('Drawer Header',textAlign: TextAlign.center,),
+                decoration: BoxDecoration(
+                  color: Color(0xff01464D).withOpacity(0.6),
+                ),
+              ),
+              ListTile(
+                leading:   new FaIcon(FontAwesomeIcons.shareAlt,color:Color(0xff006B7F)),
+                title: Text('Share'),
+                subtitle: Text("Share this app"),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              ListTile(
+                leading:   new FaIcon(FontAwesomeIcons.thumbsUp,color:Color(0xff006B7F)),
+                subtitle: Text("Rate us now",),
+                title: Text('Rate us',style: TextStyle(color: Colors.black),),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+            ],
+          ),
+        ),
           // Add a ListView to the drawer. This ensures the user can scroll
           // through the options in the drawer if there isn't enough vertical
           // space to fit everything.
@@ -166,9 +204,8 @@ backgroundColor: Color(0xff93C5D8).withOpacity(0.1),
 
         ClipPath(
         clipper: ArcClipper(),
-child: Image.network(
-
-    "https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg",
+child: Image.asset(
+"assets/images/bkg.jpg",
 height: 230,
   width: screenWidth,fit: BoxFit.cover,
 ),
@@ -250,7 +287,11 @@ mainAxisAlignment: MainAxisAlignment.start,
                     
                     child: AutoSizeText(
                     CM.title,
-                    style: TextStyle(fontSize: 20.0,color: Colors.white),
+                    style:  GoogleFonts.bitter(
+                    textStyle: TextStyle(color: Colors.white, ),
+
+                    fontSize: 20),
+
                     maxLines: 4,
 
 
@@ -258,8 +299,18 @@ mainAxisAlignment: MainAxisAlignment.start,
                   ),
 
                   SizedBox(height: 15,),
-                  Text("Size "+CM.size,style: TextStyle(color: Color(0xffF5BD1F),fontSize: 15),),
-                  Text("Pages "+CM.pages,style: TextStyle(color: Colors.deepOrangeAccent,fontSize: 15),),
+                  Text("Size: "+CM.size,
+                  style:  GoogleFonts.hind(
+                  textStyle: TextStyle(color: Colors.yellow, ),
+
+        fontSize: 15),),
+                  Text("Pages "+CM.pages,
+                    style:  GoogleFonts.hind(
+                        textStyle: TextStyle(color: Colors.deepOrangeAccent, ),
+
+                        fontSize: 15),
+
+                  ),
 
 
 
@@ -313,6 +364,9 @@ mainAxisAlignment: MainAxisAlignment.start,
               );
 
             },),
+
+
+
             IconButton(
               onPressed:()async{
                 final PermissionHandler _permissionHandler = PermissionHandler();
@@ -375,12 +429,19 @@ Stack(children: <Widget>[
 
 
 
-  Text("Introduction",style: TextStyle(fontSize: 30,color:Colors.yellow,fontWeight: FontWeight.bold),),
+  //Text("Introduction",style: TextStyle(fontSize: 30,color:Colors.yellow,fontWeight: FontWeight.bold),),
+      Text("Introduction",style:  GoogleFonts.monoton(
+    textStyle: TextStyle(color: Colors.yellow, ),
+
+    fontSize:25),),
 
   AutoSizeText(
    CM.intro,
-      maxLines: 8,
-      style: TextStyle(fontSize: 20,color: Colors.white),
+      maxLines: 7,
+    style:  GoogleFonts.patuaOne(
+        textStyle: TextStyle(color: Colors.white70, ),
+
+        fontSize: 20),
   ),
 
 

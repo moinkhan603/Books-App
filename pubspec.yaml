@@ -32,6 +32,7 @@ dependencies:
   auto_size_text: ^2.1.0
   cloud_firestore:
   toast: ^0.1.5
+  google_fonts: ^1.0.0
   connectivity: ^0.4.8+2
   share_extend: ^1.1.5
   permission_handler: ^3.0.0

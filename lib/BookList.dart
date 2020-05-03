@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'CommonMethods.dart';
 import 'package:flutter/material.dart';
 import 'package:learnprog/Detail.dart';
@@ -18,6 +20,19 @@ class _BookListState extends State<BookList> {
   List<DocumentSnapshot>books;
   final CollectionReference collectionReference=
   Firestore.instance.collection(CM.cover);
+  List filterlist;
+
+
+
+  void myfilter(value)
+  {
+    setState(() {
+      filterlist=books.where((mydata)=>mydata['name'].toLowerCase().contains(value.toLowerCase())).toList();
+
+    });
+  }
+
+
 
 @override
   void initState() {
@@ -29,7 +44,7 @@ class _BookListState extends State<BookList> {
 
 
       setState(() {
-        books=datasnapshot.documents;
+        books=filterlist=datasnapshot.documents;
       });
 
 
@@ -72,20 +87,24 @@ class _BookListState extends State<BookList> {
           children: <Widget>[
             DrawerHeader(
 
-              child: Text('Drawer Header'),
+              child: Text('Drawer Header',textAlign: TextAlign.center,),
               decoration: BoxDecoration(
-                color: Color(0xff006B7F).withOpacity(0.8),
+                color: Color(0xff01464D).withOpacity(0.6),
               ),
             ),
             ListTile(
-              title: Text('Item 1'),
+              leading:   new FaIcon(FontAwesomeIcons.shareAlt,color:Color(0xff006B7F)),
+              title: Text('Share'),
+              subtitle: Text("Share this app"),
               onTap: () {
                 // Update the state of the app.
                 // ...
               },
             ),
             ListTile(
-              title: Text('Item 2'),
+              leading:   new FaIcon(FontAwesomeIcons.thumbsUp,color:Color(0xff006B7F)),
+              subtitle: Text("Rate us now",),
+              title: Text('Rate us',style: TextStyle(color: Colors.black),),
               onTap: () {
                 // Update the state of the app.
                 // ...
@@ -101,7 +120,7 @@ body:  Stack(children: <Widget>[
 
       height: MediaQuery.of(context).size.height,
       //child: Image.asset("assets/images/bkg.jpg")
-child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
+child:Image.asset("assets/images/bkg.jpg"),
 
   ),
   ClipPath(
@@ -139,7 +158,7 @@ child: Image.network("https://www.idaptweb.com/wp-content/uploads/2019/10/comput
 //
 //      ),
 
-books!=null?
+filterlist!=null?
     Container(
       margin: EdgeInsets.only(top: 150),
       height: MediaQuery.of(context).size.height,
@@ -147,17 +166,17 @@ books!=null?
 
 physics: BouncingScrollPhysics(),
 
-itemCount: books.length,
+itemCount: filterlist.length,
 
       itemBuilder: (BuildContext context, int index) {
-String imgpath=books[index].data['img'];
-String title=books[index].data['name'];
-String pages=books[index].data['pages'];
-String size=books[index].data['size'];
-String pdf=books[index].data['pdf'];
-String intro=books[index].data['intro'];
+String imgpath=filterlist[index].data['img'];
+String title=filterlist[index].data['name'];
+String pages=filterlist[index].data['pages'];
+String size=filterlist[index].data['size'];
+String pdf=filterlist[index].data['pdf'];
+String intro=filterlist[index].data['intro'];
 print(pages);
-print(books.length);
+print(filterlist.length);
         return mycard(imgpath,title,pages,size,pdf,intro);
 
 
@@ -173,6 +192,10 @@ print(books.length);
     elevation: 11,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(40))),
     child: TextField(
+      onChanged: (value){
+        print(value);
+        myfilter(value);
+      },
       decoration: InputDecoration(
 //          prefixIcon: Icon(Icons.person, color: Colors.black26,),
           suffixIcon: Icon(Icons.search, color: Colors.black,),
@@ -263,14 +286,22 @@ print(books.length);
 
             AutoSizeText(
              title
-                  ,maxLines: 3,style: TextStyle(fontSize: 20,color: Colors.white),
+                  ,maxLines: 3, style:  GoogleFonts.ubuntu(
+          textStyle: TextStyle(color: Colors.white, ),
+
+            fontSize: 20),
 
             ),
+
+
+
+
+
               SizedBox(height: 6.0,),
-              Text("Pages: "+pages, style: TextStyle(
-                  color: Colors.orange,
-                  fontSize: 18.0
-              )),
+              Text("Pages: "+pages, style:  GoogleFonts.hindMadurai(
+                  textStyle: TextStyle(color: Colors.lightGreenAccent, ),
+
+                  fontSize: 18), ),
 
 RaisedButton(
   elevation: 10,

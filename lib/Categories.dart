@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'values.dart';
 import 'CommonMethods.dart';
 import 'BookList.dart';
@@ -117,8 +118,7 @@ isConnected==true?
           // child: Image.asset("assets/images/bkg.jpg")
 
 
-          child: Image.network(
-              "https://www.idaptweb.com/wp-content/uploads/2019/10/computer-keyboard-connection-contemporary-1714208.jpg"),
+          child: Image.asset("assets/images/bkg.jpg"),
         ),
         ClipPath(
           clipper: CustomClipPath(),
@@ -264,10 +264,10 @@ CM.cover=bookName;
 
             ),
           Text(
-            data.title,style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold
-          ,color: Colors.white),
-            textAlign: TextAlign.center,
-           ),
+            data.title,style:   GoogleFonts.hindMadurai(
+          textStyle: TextStyle(color: Colors.white, ),
+
+          fontSize: 14,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
           ],
         ),
       ),
