@@ -64,9 +64,36 @@ class _BookListState extends State<BookList> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+double myheight=240;
+double myTitleFont=20;
+double myPagesFont=18;
+double myButtonSize=15;
+double padding=20;
   @override
   Widget build(BuildContext context) {
+    var hgt=MediaQuery.of(context).size.height;
+
+    if(hgt>1000)
+      {
+        setState(() {
+          myheight=450;
+          myTitleFont=50;
+          myPagesFont=40;
+          myButtonSize=40;
+          padding=50;
+        });
+      }
+    if(hgt<1000&&hgt>900)
+    {
+
+      setState(() {
+        myheight=350;
+        myTitleFont=35;
+        myPagesFont=25;
+      });
+    }
+
+    print(hgt);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("JavaScript Books"),
@@ -257,14 +284,21 @@ print(filterlist.length);
 
 
     return Container(
-    padding: EdgeInsets.only(left: 20.0, right: 20.0,top: 5,bottom: 5),
+    padding: EdgeInsets.only(left: padding, right: padding,top: 5,bottom: 5),
     margin: EdgeInsets.only(bottom: 20.0),
-    height: 240,
+    height: myheight,
     child: Row(
       children: <Widget>[
         Expanded(child: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(image: NetworkImage(imgpath), fit: BoxFit.fill),
+              image:
+
+
+
+              DecorationImage(
+
+                  image:
+              NetworkImage(imgpath), fit: BoxFit.fill),
               borderRadius: BorderRadius.all(Radius.circular(20.0)),
               boxShadow: [
                 BoxShadow(color: Colors.black87.withOpacity(0.1),offset: Offset(5.0,5.0), blurRadius: 20.0)
@@ -273,7 +307,7 @@ print(filterlist.length);
         )),
         Expanded(child: Container(
          
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -289,7 +323,7 @@ print(filterlist.length);
                   ,maxLines: 3, style:  GoogleFonts.ubuntu(
           textStyle: TextStyle(color: Colors.white, ),
 
-            fontSize: 20),
+            fontSize: myTitleFont),
 
             ),
 
@@ -301,11 +335,12 @@ print(filterlist.length);
               Text("Pages: "+pages, style:  GoogleFonts.hindMadurai(
                   textStyle: TextStyle(color: Colors.lightGreenAccent, ),
 
-                  fontSize: 18), ),
+                  fontSize: myPagesFont), ),
 
 RaisedButton(
+
   elevation: 10,
-child: Text("Details"),
+child: Text("Details",style: TextStyle(fontSize: myButtonSize),),
   onPressed:(){
     CM.imgpath=imgpath;
     CM.title=title;

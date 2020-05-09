@@ -26,7 +26,8 @@ bool isConnected;
     "nodejs",
     "sql",
     "python",
-    "java"
+    "java",
+    "rlang"
   ];
 
   final List<myvalues> values = [
@@ -41,7 +42,8 @@ bool isConnected;
     myvalues("assets/images/node.png","NodeJs Books"),
     myvalues("assets/images/sql.png","SQL Books"),
     myvalues("assets/images/python.png","Python Books"),
-    myvalues("assets/images/java.png","Java Books")
+    myvalues("assets/images/java.png","Java Books"),
+    myvalues("assets/images/R.png","R Books"),
 
   ];
 
@@ -96,10 +98,35 @@ subscription?.cancel();
     super.dispose();
 
   }
-
+  double imgsize=80;
+  double font=14;
+double titleFont=50;
   @override
   Widget build(BuildContext context) {
+   double hgt=MediaQuery.of(context).size.height;
+if(hgt>1000)
+  {
+    setState(() {
+      imgsize=230;
+      font=25;
+    });
+  }
+   if(hgt<1000&&hgt>900)
+   {
 
+     setState(() {
+       imgsize=150;
+       font=20;
+     });
+   }
+if(hgt<600)
+  {
+    setState(() {
+      imgsize=65;
+      font=12;
+      titleFont=35;
+    });
+  }
     var x=MediaQuery.of(context).size.height;
     return Scaffold(
 
@@ -149,34 +176,41 @@ isConnected==true?
                 child: SafeArea(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
 
-//                    SizedBox(
-//                    width: 250.0,
-//    child: ColorizeAnimatedTextKit(
-//    onTap: () {
-//    print("Tap Event");
-//    },
-//    text: [
-//    "Larry Page",
-//    "Bill Gates",
-//    "Steve Jobs",
-//    ],
-//    textStyle: TextStyle(
-//    fontSize: 50.0,
-//    fontFamily: "Horizon"
-//    ),
-//    colors: [
-//    Colors.purple,
-//    Colors.blue,
-//    Colors.yellow,
-//    Colors.red,
-//      Colors.white
-//    ],
-//    textAlign: TextAlign.start,
-//    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
-//    ),
-                      //  )
+                    Center(
+                      child: SizedBox(
+                      //width: MediaQuery.of(context).size.width/1.2,
+
+
+    child: ColorizeAnimatedTextKit(
+    onTap: () {
+    print("Tap Event");
+    },
+
+    text: [
+    "Coding Books",
+
+    ],
+    textStyle: TextStyle(
+      
+    fontSize: titleFont,
+    fontFamily: "Horizon"
+    ),
+    colors: [
+    Colors.white,
+
+    Colors.yellow,
+    Colors.red,
+      Colors.black87,
+      Colors.white70,
+    ],
+    textAlign: TextAlign.start,
+    alignment: AlignmentDirectional.topStart // or Alignment.topLeft
+    ),
+                          ),
+                    )
                     ],),
                 ),
               ),
@@ -259,7 +293,7 @@ CM.cover=bookName;
               data.imgpath,
               //height: 500,
               fit: BoxFit.cover,
-              height: 80,
+              height: imgsize,
 
 
             ),
@@ -267,7 +301,7 @@ CM.cover=bookName;
             data.title,style:   GoogleFonts.hindMadurai(
           textStyle: TextStyle(color: Colors.white, ),
 
-          fontSize: 14,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+          fontSize: font,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
           ],
         ),
       ),

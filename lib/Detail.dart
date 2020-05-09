@@ -143,14 +143,78 @@ if(percent==1.0||percent==1)
     initDownloadsDirectoryState();
   }
 
-
+double bookHgt=230;
+double title=20;
+double underTitle=15;
+double introFont=25;
+double descFont=20;
+double fontSize=25;
+double progressRadius=90.0;
+double margin=0;
   @override
   Widget build(BuildContext context) {
+    double conH=   MediaQuery.of(context).size.height/2.8;
+    double conW=   MediaQuery.of(context).size.width;
+
+
+    double proHgt=MediaQuery.of(context).size.height/2.2;
+    double proWdt=MediaQuery.of(context).size.width/1.4;
+
+
     var screenWidth = MediaQuery.of(context).size.width;
+    double myhgt=MediaQuery.of(context).size.height;
+    if(myhgt>1000)
+      {
+
+        setState(() {
+          bookHgt=450;
+          title=40;
+          underTitle=30;
+          introFont=40;
+          fontSize=35;
+          descFont=30;
+          progressRadius=130;
+          margin=20;
+          conH=MediaQuery.of(context).size.height/2.1;
+          proHgt=MediaQuery.of(context).size.height/2.77;
+          proWdt=MediaQuery.of(context).size.height/2;
+
+        });
+
+      }
+if(myhgt<1000&&myhgt>850)
+  {
+
+    setState(() {
+      proHgt=MediaQuery.of(context).size.height/2.6;
+      bookHgt=300;
+
+    });
+  }
+if(myhgt<850&&myhgt>800)
+  {
+    proHgt=MediaQuery.of(context).size.height/2.5;
+  }
+
+ if(myhgt<600)
+  {
+    setState(() {
+
+    });
+    conH=MediaQuery.of(context).size.height/2.1;
+     proHgt=MediaQuery.of(context).size.height/1.78;
+    proWdt=MediaQuery.of(context).size.height/2.4;
+    progressRadius=70.0;
+    bookHgt=210;
+    title=18;
+  }
+
+
+
     return Scaffold(
       key: _scaffoldKey,
 appBar: AppBar(title: Text(CM.name,style:  GoogleFonts.hindMadurai(
-
+fontSize: underTitle
 ),),
   leading: new IconButton(
       icon: new FaIcon(FontAwesomeIcons.thList,size: 25,),
@@ -198,6 +262,7 @@ appBar: AppBar(title: Text(CM.name,style:  GoogleFonts.hindMadurai(
 
 backgroundColor: Color(0xff93C5D8).withOpacity(0.1),
       body: SingleChildScrollView(
+
         child: Stack(
 
           children: <Widget>[
@@ -231,13 +296,14 @@ height: 230,
 //              ),
 //            ),
             Positioned(
-              top: MediaQuery.of(context).size.height/2.2,
-              left: MediaQuery.of(context).size.width/1.4,
+              top: proHgt,
+              left: proWdt,
+
               child: Container(
                 //  margin: EdgeInsets.only(left: 100),
                 child: new CircularPercentIndicator(
 
-                  radius: 90.0,
+                  radius: progressRadius,
                   lineWidth: 4.0,
                   percent: percent,
 
@@ -268,7 +334,7 @@ margin: EdgeInsets.only(top: 156,left: 10),
            CM.imgpath,
             fit: BoxFit.fill,
             width: MediaQuery.of(context).size.width/2.3,//152
-            height: 220,
+            height: bookHgt,
             ),
             ),
               SizedBox(width: 10,),
@@ -290,7 +356,7 @@ mainAxisAlignment: MainAxisAlignment.start,
                     style:  GoogleFonts.bitter(
                     textStyle: TextStyle(color: Colors.white, ),
 
-                    fontSize: 20),
+                    fontSize: title),
 
                     maxLines: 4,
 
@@ -303,12 +369,12 @@ mainAxisAlignment: MainAxisAlignment.start,
                   style:  GoogleFonts.hind(
                   textStyle: TextStyle(color: Colors.yellow, ),
 
-        fontSize: 15),),
+        fontSize: underTitle),),
                   Text("Pages "+CM.pages,
                     style:  GoogleFonts.hind(
                         textStyle: TextStyle(color: Colors.deepOrangeAccent, ),
 
-                        fontSize: 15),
+                        fontSize: underTitle),
 
                   ),
 
@@ -356,7 +422,8 @@ mainAxisAlignment: MainAxisAlignment.start,
 //SizedBox(width: 15,),
             IconButton(
 
-              icon: FaIcon(FontAwesomeIcons.print,color: Colors.white,),
+              icon: FaIcon(FontAwesomeIcons.print,color: Colors.white,
+              size: fontSize,),
             onPressed: (){
               Navigator.push(
                 context,
@@ -379,11 +446,13 @@ mainAxisAlignment: MainAxisAlignment.start,
 
 
 
-              icon: FaIcon(FontAwesomeIcons.download,color: Colors.white),),
+              icon: FaIcon(FontAwesomeIcons.download,color: Colors.white,size: fontSize,),
+
+            ),
             IconButton(
               onPressed: share,
 
-              icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white),),
+              icon: FaIcon(FontAwesomeIcons.shareAlt,color: Colors.white,size: fontSize,),),
 
 
           ],),),
@@ -400,9 +469,9 @@ Stack(children: <Widget>[
 
   Container(
 
-
-    height: MediaQuery.of(context).size.height/2.8,
-    width: MediaQuery.of(context).size.width,
+margin: EdgeInsets.only(top: margin),
+    height: conH,
+    width: conW,
     decoration: BoxDecoration(
       image: DecorationImage(
         colorFilter: ColorFilter.mode(Color(0xffffffff).withOpacity(0.15),
@@ -433,7 +502,7 @@ Stack(children: <Widget>[
       Text("Introduction",style:  GoogleFonts.monoton(
     textStyle: TextStyle(color: Colors.yellow, ),
 
-    fontSize:25),),
+    fontSize:introFont),),
 
   AutoSizeText(
    CM.intro,
@@ -441,7 +510,7 @@ Stack(children: <Widget>[
     style:  GoogleFonts.patuaOne(
         textStyle: TextStyle(color: Colors.white70, ),
 
-        fontSize: 20),
+        fontSize: descFont),
   ),
 
 
